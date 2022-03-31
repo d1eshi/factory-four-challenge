@@ -54,7 +54,7 @@ export const StatusDashboard: FC = () => {
     setInterval(() => {
       setData([])
       getStatus()
-    }, 5000)
+    }, 15000)
   }, [])
 
   const transformDate = () => {

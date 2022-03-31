@@ -34,8 +34,9 @@ const nameList = [
 
 export const StatusDashboard: FC = () => {
   const [data, setData] = React.useState<Health[]>([])
+  const timeForEachRequest = 15000 // in milliseconds
 
-  const getStatus = async () => {
+  const getDataStatus = async () => {
     nameList.map(async name => {
       const response = ((await getStatusHealth(name)) as Health) || {
         success: false,
@@ -50,11 +51,11 @@ export const StatusDashboard: FC = () => {
   }
 
   React.useEffect(() => {
-    getStatus()
+    getDataStatus()
     setInterval(() => {
       setData([])
-      getStatus()
-    }, 15000)
+      getDataStatus()
+    }, timeForEachRequest)
   }, [])
 
   const transformDate = () => {

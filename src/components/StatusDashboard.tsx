@@ -37,6 +37,7 @@ export const StatusDashboard: FC = () => {
   const timeForEachRequest = 15000 // in milliseconds
 
   const getDataStatus = async () => {
+    let arr: Health[] = []
     nameList.map(async name => {
       const response = ((await getStatusHealth(name)) as Health) || {
         success: false,
@@ -45,15 +46,16 @@ export const StatusDashboard: FC = () => {
         message: 'error',
         time: 0,
       }
-
-      setData(prev => [...prev, response])
+      arr = [...arr, response]
+      if (response) {
+        setData(arr)
+      }
     })
   }
 
   React.useEffect(() => {
     getDataStatus()
     setInterval(() => {
-      setData([])
       getDataStatus()
     }, timeForEachRequest)
   }, [])
@@ -76,16 +78,17 @@ export const StatusDashboard: FC = () => {
         <h2>Status Dashboard</h2>
       </nav>
       <main>
-        {data.map((item, i) => (
-          <CardStatus
-            key={i}
-            name={item.name}
-            success={item.success}
-            hostname={item.hostname}
-            message={item.message}
-            time={transformDate()}
-          />
-        ))}
+        {data.length === 18 &&
+          data.map((item, i) => (
+            <CardStatus
+              key={i}
+              name={item.name}
+              success={item.success}
+              hostname={item.hostname}
+              message={item.message}
+              time={transformDate()}
+            />
+          ))}
       </main>
     </div>
   )

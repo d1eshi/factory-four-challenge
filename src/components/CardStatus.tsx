@@ -23,4 +23,4 @@ const CardStatus: FC<Health> = ({ name, success, time, message, hostname }) => {
   )
 }
 
-export default React.memo(CardStatus)
+export default CardStatus
